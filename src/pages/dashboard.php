@@ -6,6 +6,7 @@
             <a class="fa-solid fa-user" href="#">Log Out</a>
         </nav>
     </header>
+    <hr>
     <main>
         <section>
             <div class="date-container">

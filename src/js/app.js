@@ -16,27 +16,32 @@ const days = daysOfTheYear.get(currenMonth)
 days.forEach((day) => {
     const ancle = document.createElement('h3')
     ancle.textContent = day
+    if(currentDay === day) {
+        ancle.classList.add('current')
+    } else{
+        ancle.classList.add('inactive')
+    }
     calendar.appendChild(ancle);
 })
+const frontDays = document.querySelectorAll('.calendar h3')
 
 dateTxt.textContent = `${currentDay} of ${currenMonth} of ${currentYear}`
 
 document.addEventListener('click', (e)=> {
     if(e.target.classList.contains('fa-angle-right')){
         currentDay++;
+        frontDays[currentDay-2].classList.remove('current');
+        frontDays[currentDay-1].classList.add('current')
+        frontDays[currentDay-1].classList.remove('inactive')
         setDay(currentDay, Month, currentYear);
     }
     if(e.target.classList.contains('fa-angle-left')){
         currentDay--;
-        setDay(currentDay, Month, currentYear)
+        frontDays[currentDay].classList.remove('current');
+        frontDays[currentDay-1].classList.add('current')
+        frontDays[currentDay-1].classList.remove('inactive')
+        setDay(currentDay, Month, currentYear);
     }
-    if(currentDay >= 31) {
-        currentDay = 0;
-        Month++;
-    }
-    if(Month >=11){
-        Month = 0;
-        currentYear++;   }
 })
 const setDay = (day, month, year) => {
     dateTxt.textContent = `${day} of ${monthsOfYear[month]} of ${year}`
