@@ -1,31 +1,41 @@
 import  {daysOfTheYear}  from "./daysOfYear.js"
 
-console.log(daysOfTheYear);
-
+const monthsOfYear = [...daysOfTheYear.keys()];
 
 const dateTxt = document.querySelector('.date')
-const monthsOfYear = ['April','February','March', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 let currentDay = new Date().getDate()
-let currentMonth = new Date().getMonth() -1
+let Month = new Date().getMonth()
 let currentYear = new Date().getFullYear()
-dateTxt.textContent = `${currentDay} of ${monthsOfYear[currentMonth]} of ${currentYear}`
+
+let currenMonth = monthsOfYear[Month]
+
+const calendar = document.querySelector('.calendar')
+const days = daysOfTheYear.get(currenMonth)
+
+days.forEach((day) => {
+    const ancle = document.createElement('h3')
+    ancle.textContent = day
+    calendar.appendChild(ancle);
+})
+
+dateTxt.textContent = `${currentDay} of ${currenMonth} of ${currentYear}`
 
 document.addEventListener('click', (e)=> {
     if(e.target.classList.contains('fa-angle-right')){
         currentDay++;
-        setDay(currentDay, currentMonth, currentYear);
+        setDay(currentDay, Month, currentYear);
     }
     if(e.target.classList.contains('fa-angle-left')){
         currentDay--;
-        setDay(currentDay, currentMonth, currentYear)
+        setDay(currentDay, Month, currentYear)
     }
     if(currentDay >= 31) {
         currentDay = 0;
-        currentMonth++;
+        Month++;
     }
-    if(currentMonth >=11){
-        currentMonth = 0;
+    if(Month >=11){
+        Month = 0;
         currentYear++;   }
 })
 const setDay = (day, month, year) => {
