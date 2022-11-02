@@ -26,7 +26,7 @@
                 </div>
             </form>
             <div class="register">
-                    <h2>Sing Up</h2>
+                    <h2>Login Into a current account</h2>
                     <div class="social-media">
                         <h3>Follow Us on social media</h3>
                         <div class="icons">
@@ -37,7 +37,7 @@
                             <a href="http://reddit.com/" class="fa-brands fa-reddit" target="_blank" ></a>
                             <a href="http://youtube.com/" class="fa-brands fa-youtube" target="_blank" ></a>
                         </div>
-                        <a href="#">Create an account</a>
+                        <a href="./login.php">Login into an account</a>
                     </div>
             </div>
         </div>

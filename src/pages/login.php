@@ -1,21 +1,31 @@
 <?php 
     include './../php/includes.php';
     includeTemplate('header');
+    $error;
+    if($_GET) {
+        $value = $_GET['msg'];
+        if ($value == '1') {
+            $error = 'The user does not exit';
+        } else {
+            $error = 'The password is incorrect';
+        }
+    }
 ?>
 <body>
     <main class="form-container" >
         <div class="all-container">
-            <form class="login">
+            <form class="login" action='./../php/checkUser.php' method="POST">
                 <h1>User Login</h1>
                 <h2>Please fill your info</h2>
+                <h4><?php if(!empty($error)) { echo $error; } ?></h4>
                 <div class="login-form">
                     <div class="input">
                         <i class="fa-solid fa-user"></i>
-                        <input placeholder="Enter your email address" type="email">
+                        <input placeholder="Enter your email address" type="email" name='email'>
                     </div>
                     <div class="input">
                         <i class="fa-solid fa-lock"></i>
-                        <input placeholder="Enter your password" type="password">
+                        <input placeholder="Enter your password" name='password' type="password">
                     </div>
                     <button class="input" type="submit" >Login</button>
                     <a href="#">Forget password?</a>
@@ -33,7 +43,7 @@
                             <a href="http://reddit.com/" class="fa-brands fa-reddit" target="_blank" ></a>
                             <a href="http://youtube.com/" class="fa-brands fa-youtube" target="_blank" ></a>
                         </div>
-                        <a href="#">Create an account</a>
+                        <a href="./register.php">Create an account</a>
                     </div>
             </div>
         </div>

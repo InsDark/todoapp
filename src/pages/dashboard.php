@@ -1,9 +1,15 @@
-<?php  include './../php/includes.php'; includeTemplate('header')?>
+<?php  include './../php/includes.php'; includeTemplate('header');
+session_start();
+if($_SESSION['login'] == false) {
+    header('location: ./login.php');
+}   
+
+?>
 <body>
     <header>
         <img src="./../img/logo.png" alt="logo-img">
         <nav>
-            <a class="fa-solid fa-user" href="#">Log Out</a>
+            <a class="fa-solid fa-user" href="./../php/closeSession.php">Log Out</a>
         </nav>
     </header>
     <hr>

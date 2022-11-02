@@ -7,7 +7,7 @@ $userEmail = $_POST['email'];
 $userName = $_POST['userName'];
 
 $userPlanePassword = $_POST['password'];
-$userHashPassword = password_hash(md5($userPlanePassword), PASSWORD_BCRYPT);
+$userHashPassword = password_hash($userPlanePassword, PASSWORD_BCRYPT);
 
 $query  = "INSERT INTO user(userName, email, password) VALUES('$userName', '$userEmail', '$userHashPassword');";
 
