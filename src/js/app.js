@@ -1,7 +1,7 @@
 import  {daysOfTheYear}  from "./daysOfYear.js"
 import {checkYear}  from "./typeOfYear.js"
 import {renderDays}  from "./renderDays.js"
-
+import {getTasks}  from "./tasks.js"
 
 let currentYear = new Date().getFullYear()
 let yearStatus = checkYear(currentYear)
@@ -35,9 +35,19 @@ let days = daysOfTheYear.get(currentMonth)
 
 renderDays(days, currentDay, calendar)
 
-let frontDays = document.querySelectorAll('.calendar h3')
+let frontDays = document.querySelectorAll('.btn-day')
 
 document.addEventListener('click', (e)=> {
+    if(e.target.classList.contains('btn-day')){
+        let task = getTasks();
+        e.preventDefault()
+        console.log(task)
+        // frontDays[currentDay-1].classList.remove('current')
+        // frontDays[currentDay-1].classList.add('inactive')
+        // currentDay = e.target.textContent
+        // frontDays[currentDay-1].classList.remove('inactive')
+        // frontDays[currentDay-1].classList.add('current')
+    }
     if(e.target.classList.contains('fa-angle-right')){
         if(currentDay === days.length){
             let childrens = Array.from(calendar.children)

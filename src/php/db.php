@@ -4,9 +4,9 @@ function connectDB () {
     $server = 'localhost';
     $user = 'root';
     $password = 'root';
-    $dataBase = 'todoappcalendar';
+    $database = 'todoappcalendar';
     
-    $db = mysqli_connect($server, $user, $password, $dataBase);
+    $db = new PDO("mysql:host=$server;dbname=$database", $user, $password);
 
     if(!$db) {
         echo "Database connection was not established";
