@@ -5,8 +5,10 @@
     if($_GET) {
         $value = $_GET['msg'];
         if ($value == '1') {
-            $error = 'The user does not exit';
-        } else {
+            $error = 'The credentials are not valid';
+        } else if($value == '2') {
+            $error = 'The email not exist';
+        } else{
             $error = 'The password is incorrect';
         }
     }
@@ -14,7 +16,7 @@
 <body>
     <main class="form-container" >
         <div class="all-container">
-            <form class="login" action='./../php/checkUser.php' method="POST">
+            <form class="login" action='./../php/loguser.php' method="POST">
                 <h1>User Login</h1>
                 <h2>Please fill your info</h2>
                 <h4><?php if(!empty($error)) { echo $error; } ?></h4>
@@ -43,7 +45,7 @@
                             <a href="http://reddit.com/" class="fa-brands fa-reddit" target="_blank" ></a>
                             <a href="http://youtube.com/" class="fa-brands fa-youtube" target="_blank" ></a>
                         </div>
-                        <a href="./register.php">Create an account</a>
+                        <a href="./../../index.php">Create an account</a>
                     </div>
             </div>
         </div>

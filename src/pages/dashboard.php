@@ -9,7 +9,7 @@ if($_SESSION['login'] == false) {
     <header>
         <img src="./../img/logo.png" alt="logo-img">
         <nav>
-            <a class="fa-solid fa-user" href="./../php/closeSession.php">Log Out</a>
+            <a class="fa-solid fa-user" href="./../php/logout.php">Log Out</a>
         </nav>
     </header>
     <hr>
