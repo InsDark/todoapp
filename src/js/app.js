@@ -100,12 +100,36 @@ document.addEventListener('click', (e)=> {
         }
     }
 })
-
-
-
+let tasksContainer = document.querySelector('.tasks-container')
+let tasksAlert = document.querySelector('.task-msg')
+let taskTitle = document.querySelector("[name='taskName']")
 document.addEventListener('submit', (e) => {
     if(e.target.classList.contains('form-tasks')){
         e.preventDefault();
-        console.log('yes');
+        if(!taskTitle.value.trim()){
+            tasksAlert.textContent = 'The task should not be empty';
+            setTimeout(() => {
+                tasksAlert.textContent = '';
+            }, 4000)
+        } else{
+            let res = addTask(taskTitle.value)
+            taskTitle.value = '';
+            res.then((resolve) => {
+                if(resolve == 1){
+                    tasksAlert.style.color = 'green'
+                    tasksAlert.textContent = 'The task was successfully added';
+                    setTimeout(() => {
+                        tasksAlert.textContent = ''
+                    }, 4000)
+                } else{
+                    tasksAlert.style.color = 'red'
+                    tasksAlert.textContent = 'Something went wrong';
+                    setTimeout(() => {
+                        tasksAlert.textContent = ''
+                    }, 4000)
+                }
+            })
+        }
+        
     }
 })

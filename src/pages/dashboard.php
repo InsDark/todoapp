@@ -28,6 +28,7 @@ if($_SESSION['login'] == false) {
                 <input type="text" name="taskName" placeholder="Add a new task">
                 <button type="submit"><i class="fa-solid fa-plus"></i> Create a new task</button>
             </form>
+            <h4 class='task-msg'></h4>
             <div class="tasks-container">
             </div>
         </section>
