@@ -2,12 +2,13 @@ import  {daysOfTheYear}  from "./daysOfYear.js"
 import {checkYear}  from "./typeOfYear.js"
 import {renderDays}  from "./renderDays.js"
 import {getTasks}  from "./tasks.js"
+import {renderTasks} from "./renderTasks.js"
+import{addTask} from "./addtask.js"
 
 let currentYear = new Date().getFullYear()
 let yearStatus = checkYear(currentYear)
 
 const allMonths = [...daysOfTheYear.keys()];
-
 let monthsOfYear = allMonths.filter((month) => {
     if(yearStatus === true){
         return month !== 'February'
@@ -15,15 +16,12 @@ let monthsOfYear = allMonths.filter((month) => {
         return month !== 'FebruaryBis'
     }
 })
-
 const dateTxt = document.querySelector('.date')
+const calendar = document.querySelector('.calendar')
 
 let currentDay = new Date().getDate()
-let Month = new Date().getMonth()
-
-let currentMonth = monthsOfYear[Month]
-
-const calendar = document.querySelector('.calendar')
+let indexMonth = new Date().getMonth()
+let currentMonth = monthsOfYear[indexMonth]
 
 const setDay = (day, month, year) => {
     dateTxt.textContent = `${day} of ${month} of ${year}`
@@ -39,55 +37,75 @@ let frontDays = document.querySelectorAll('.btn-day')
 
 document.addEventListener('click', (e)=> {
     if(e.target.classList.contains('btn-day')){
-        let task = getTasks();
-        e.preventDefault()
-        console.log(task)
-        // frontDays[currentDay-1].classList.remove('current')
-        // frontDays[currentDay-1].classList.add('inactive')
-        // currentDay = e.target.textContent
-        // frontDays[currentDay-1].classList.remove('inactive')
-        // frontDays[currentDay-1].classList.add('current')
+        let dayReq = e.target.textContent
+        setDay(dayReq, currentMonth, currentYear)
+        let res = getTasks(`${currentYear}-${indexMonth + 1}-${dayReq}`)
+        frontDays[currentDay-1].classList.remove('current')
+        frontDays[currentDay-1].classList.add('inactive')
+        currentDay = dayReq
+        frontDays[currentDay-1].classList.remove('inactive')
+        frontDays[currentDay-1].classList.add('current')
+        res.then(task => renderTasks(task));
     }
     if(e.target.classList.contains('fa-angle-right')){
-        if(currentDay === days.length){
-            let childrens = Array.from(calendar.children)
-            childrens.forEach((node)=>{
-                node.remove()
+        if(indexMonth === 11){
+            indexMonth = 0;
+            currentYear++;
+            yearStatus = checkYear(currentYear);
+            monthsOfYear = allMonths.filter((month) => {
+                if(yearStatus === true){
+                    return month !== 'February'
+                } else{
+                    return month !== 'FebruaryBis'
+                }
             })
-            currentDay = 1;
-            Month++;
-            currentMonth = monthsOfYear[Month]
+            currentMonth = monthsOfYear[indexMonth];
             setDay(currentDay, currentMonth, currentYear)
+            renderDays(days, currentDay, calendar)
+        } else{
+            indexMonth++;
+            currentMonth = monthsOfYear[indexMonth]
             days = daysOfTheYear.get(currentMonth)
             renderDays(days, currentDay, calendar)
-            frontDays = document.querySelectorAll('.calendar h3')
-        } else {
-            currentDay++;
-            frontDays[currentDay-2].classList.remove('current');
-            frontDays[currentDay-1].classList.add('current')
-            frontDays[currentDay-1].classList.remove('inactive')
-            setDay(currentDay, currentMonth, currentYear);
+            setDay(currentDay, currentMonth, currentYear)
+            let res = getTasks(`${currentYear}-${indexMonth-1}-${currentDay}`)
+            res.then((tasks) => renderTasks(tasks));
+            frontDays = document.querySelectorAll('.btn-day');
         }
     }
     if(e.target.classList.contains('fa-angle-left')){
-        if(currentDay === 1){
-            let childrens = Array.from(calendar.children)
-            childrens.forEach((node)=>{
-                node.remove()
+        if(indexMonth === 0){
+            indexMonth = 11;
+            currentYear--;
+            yearStatus = checkYear(currentYear);
+            monthsOfYear = allMonths.filter((month) => {
+                if(yearStatus === true){
+                    return month !== 'February'
+                } else{
+                    return month !== 'FebruaryBis'
+                }
             })
-            Month--;
-            currentMonth = monthsOfYear[Month]
-            days = daysOfTheYear.get(currentMonth)
-            currentDay = days.length;
+            currentMonth = monthsOfYear[indexMonth];
             setDay(currentDay, currentMonth, currentYear)
             renderDays(days, currentDay, calendar)
-            frontDays = document.querySelectorAll('.calendar h3')
         } else{
-        currentDay--;
-        frontDays[currentDay].classList.remove('current');
-        frontDays[currentDay-1].classList.add('current')
-        frontDays[currentDay-1].classList.remove('inactive')
-        setDay(currentDay, currentMonth, currentYear);
+        indexMonth--;
+        currentMonth = monthsOfYear[indexMonth]
+        days = daysOfTheYear.get(currentMonth)
+        renderDays(days, currentDay, calendar)
+        setDay(currentDay, currentMonth, currentYear)
+        let res = getTasks(`${currentYear}-${indexMonth-1}-${currentDay}`)
+        res.then((tasks) => renderTasks(tasks));
+        frontDays = document.querySelectorAll('.btn-day');
         }
+    }
+})
+
+
+
+document.addEventListener('submit', (e) => {
+    if(e.target.classList.contains('form-tasks')){
+        e.preventDefault();
+        console.log('yes');
     }
 })

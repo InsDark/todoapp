@@ -5,15 +5,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if( isset($userEmail) && isset($userPass)){ 
         require './db.php';
         $db = connectDB();
-        $res = $db->query("SELECT user_name, user_pass FROM users WHERE user_email = '$userEmail'")->fetch();
+        $res = $db->query("SELECT user_id, user_pass FROM users WHERE user_email = '$userEmail'")->fetch();
         if($res){
             $dbUserPass = $res['user_pass'];
             $value = password_verify($userPass, $dbUserPass);
             if($value == true){
                 session_start();
                 $_SESSION['login'] = true;
-                $_SESSION['user'] = $res['user_name'];
-                $_SESSION['email'] = $res['user_email'];
+                $_SESSION['user'] = $res['user_id'];
+                $_SESSION['email'] = $userEmail;
                 header('Location: ./../pages/dashboard.php');
             } else{
                 header('Location: ./../pages/login.php?msg=3');
