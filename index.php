@@ -40,7 +40,7 @@ if(isset($_GET['msg'])){
                         <input placeholder="Type a password" name="password" type="password" required>
                     </div>
                     <button class="input" type="submit" >Register</button>
-                    <a href="#">Forget password?</a>
+                    <a href="./src/pages/recover.php">Forget password?</a>
                 </div>
             </form>
             <div class="register">
