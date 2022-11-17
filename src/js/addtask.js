@@ -1,6 +1,7 @@
-const addTask = async (title) => {
+const addTask = async (title, time) => {
     const data = new FormData()
     data.append('title', title)
+    data.append('time', time)
     const req = await fetch(`http://localhost/TodoApp/api/post.php`, {
         method: 'POST',
         body: data

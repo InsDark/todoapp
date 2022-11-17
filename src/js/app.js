@@ -49,11 +49,13 @@ document.addEventListener('click', (e)=> {
         let req = removeTask(taskId);
         req.then((res => {if(res == 1){
             parentElement.remove();
+            tasksAlert.style.color = 'green'
             tasksAlert.textContent = 'The task has been removed successfully';
-            setTimeout(() => {tasksAlert.textContent = ' '; task.style.color = 'green'}, 4000)
+            setTimeout(() => {tasksAlert.textContent = ' '}, 4000)
         } else{
+            tasksAlert.style.color = 'red'
             tasksAlert.textContent = 'The task wasnt removed';
-            setTimeout(() => {tasksAlert.textContent = ' '; tasksAlert.style.color = 'red'}, 4000)
+            setTimeout(() => {tasksAlert.textContent = ' '}, 4000)
         }}
          ))
     }
@@ -93,8 +95,14 @@ document.addEventListener('click', (e)=> {
             res.then((tasks) => renderTasks(tasks));
             frontDays = document.querySelectorAll('.btn-day');
         }
+        if(currentDay == 31){
+            currentDay = 28
+        }
     }
     if(e.target.classList.contains('fa-angle-left')){
+        if(currentDay == 31){
+            currentDay = 30;
+        }
         if(indexMonth === 0){
             indexMonth = 11;
             currentYear--;
@@ -131,10 +139,12 @@ document.addEventListener('submit', (e) => {
                 tasksAlert.textContent = '';
             }, 4000)
         } else{
-            let res = addTask(taskTitle.value)
+            let res = addTask(taskTitle.value, `${currentYear}-${indexMonth+1}-${currentDay}`)
             taskTitle.value = '';
             res.then((resolve) => {
                 if(resolve == 1){
+                    let req = getTasks(`${currentYear}-${indexMonth+1}-${currentDay}`)
+                    req.then((resolve) => {renderTasks(resolve)})
                     tasksAlert.style.color = 'green'
                     tasksAlert.textContent = 'The task was successfully added';
                     setTimeout(() => {

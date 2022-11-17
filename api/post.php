@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         session_start();
         $userId = $_SESSION['user'];
         $db = connectDB();
-        $task_time = date('Y-m-d');
+        $task_time = $_POST['time'];
         $query = "INSERT INTO tasks(task_title, task_time, task_maker) VALUES   ('$taskTitle', '$task_time', $userId)";
         $res = $db->query($query);
         if($res){

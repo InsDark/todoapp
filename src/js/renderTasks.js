@@ -13,7 +13,7 @@ const renderTasks = (arr) =>{
             tasksContainer.appendChild(div);
         })
     } else {
-        return null;
+        tasksContainer.innerHTML = `<h3 style='text-align: center; color: #FD8B83;'>There is no task available, add new ones</h3>`
     }
 }
 
