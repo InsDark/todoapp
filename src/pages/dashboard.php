@@ -29,8 +29,7 @@ if($_SESSION['login'] == false) {
                 <button type="submit"><i class="fa-solid fa-plus"></i> Create a new task</button>
             </form>
             <h4 class='task-msg'></h4>
-            <div class="tasks-container">
-            </div>
+            <div class="container-tasks"></div>
         </section>
     </main>
     <script src="./../js/app.js" type='module'></script>

@@ -4,7 +4,8 @@ import {renderDays}  from "./renderDays.js"
 import {getTasks}  from "./tasks.js"
 import {renderTasks} from "./renderTasks.js"
 import{addTask} from "./addtask.js"
-
+import{removeTask} from "./removetask.js"
+ 
 let currentYear = new Date().getFullYear()
 let yearStatus = checkYear(currentYear)
 
@@ -18,6 +19,8 @@ let monthsOfYear = allMonths.filter((month) => {
 })
 const dateTxt = document.querySelector('.date')
 const calendar = document.querySelector('.calendar')
+let tasksAlert = document.querySelector('.task-msg')
+
 
 let currentDay = new Date().getDate()
 let indexMonth = new Date().getMonth()
@@ -35,7 +38,25 @@ renderDays(days, currentDay, calendar)
 
 let frontDays = document.querySelectorAll('.btn-day')
 
+let res = getTasks(`${currentYear}-${indexMonth+1}-${currentDay}`)
+res.then((tasks) => renderTasks(tasks));
+frontDays = document.querySelectorAll('.btn-day');
+
 document.addEventListener('click', (e)=> {
+    if(e.target.classList.contains('btn-delete')){
+        let parentElement = e.target.parentNode;
+        let taskId = parentElement.getAttribute('task-id')
+        let req = removeTask(taskId);
+        req.then((res => {if(res == 1){
+            parentElement.remove();
+            tasksAlert.textContent = 'The task has been removed successfully';
+            setTimeout(() => {tasksAlert.textContent = ' '; task.style.color = 'green'}, 4000)
+        } else{
+            tasksAlert.textContent = 'The task wasnt removed';
+            setTimeout(() => {tasksAlert.textContent = ' '; tasksAlert.style.color = 'red'}, 4000)
+        }}
+         ))
+    }
     if(e.target.classList.contains('btn-day')){
         let dayReq = e.target.textContent
         setDay(dayReq, currentMonth, currentYear)
@@ -100,8 +121,6 @@ document.addEventListener('click', (e)=> {
         }
     }
 })
-let tasksContainer = document.querySelector('.tasks-container')
-let tasksAlert = document.querySelector('.task-msg')
 let taskTitle = document.querySelector("[name='taskName']")
 document.addEventListener('submit', (e) => {
     if(e.target.classList.contains('form-tasks')){
@@ -121,6 +140,7 @@ document.addEventListener('submit', (e) => {
                     setTimeout(() => {
                         tasksAlert.textContent = ''
                     }, 4000)
+                    renderTasks()
                 } else{
                     tasksAlert.style.color = 'red'
                     tasksAlert.textContent = 'Something went wrong';
